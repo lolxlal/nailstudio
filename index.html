@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L Nails Studio | Reserva tu turno</title>
+    <!-- Tipografías elegantes de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-beige: #F9F6F0;
+            --card-bg: rgba(255, 253, 250, 0.88);
+            --gold-primary: #B5945B;
+            --gold-hover: #9C7D46;
+            --gold-soft: #E5D7BE;
+            --text-dark: #3D3832;
+            --text-muted: #7D7468;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-beige);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fondo con tu logo estilo marca de agua sutil */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85vw;
+            max-width: 650px;
+            height: 85vh;
+            background-image: url('0fdcccf6-b67b-4825-bd53-498392ab4084.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.08; /* Transparencia suave para que no moleste la lectura */
+            mix-blend-mode: multiply; /* Integra el fondo claro del logo con el beige */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Encabezado minimalista */
+        header {
+            text-align: center;
+            padding: 3rem 1.5rem 1.5rem;
+        }
+
+        .brand-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.6rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: var(--gold-primary);
+            text-transform: lowercase;
+        }
+
+        .brand-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        /* Contenedor principal */
+        main {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 3rem;
+        }
+
+        .booking-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--gold-soft);
+            border-radius: 16px;
+            padding: 2.2rem 1.8rem;
+            box-shadow: 0 12px 35px rgba(181, 148, 91, 0.08);
+            text-align: center;
+        }
+
+        .intro-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Botón inicial */
+        .btn-primary {
+            background-color: var(--gold-primary);
+            color: #FFFFFF;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--gold-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(181, 148, 91, 0.25);
+        }
+
+        /* Formulario desplegable */
+        .booking-form {
+            display: none;
+            text-align: left;
+            margin-top: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .booking-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.4rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        select, input[type="date"], input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--gold-soft);
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--gold-primary);
+        }
+
+        /* Botones de horarios disponibles */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+        }
+
+        .time-btn {
+            padding: 0.7rem 0.5rem;
+            border: 1px solid var(--gold-soft);
+            background: #FFFFFF;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-btn:hover {
+            border-color: var(--gold-primary);
+        }
+
+        .time-btn.selected {
+            background-color: var(--gold-primary);
+            color: #FFFFFF;
+            border-color: var(--gold-primary);
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--gold-soft);
+            margin: 1.6rem 0;
+            opacity: 0.6;
+        }
+
+        .error-msg {
+            color: #B85C5C;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: none;
+            text-align: center;
+        }
+
+        /* Pie de página con Instagram y teléfono */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border-top: 1px solid rgba(181, 148, 91, 0.2);
+            background-color: rgba(249, 246, 240, 0.7);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-primary);
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="brand-title">nails studio</h1>
+        <p class="brand-subtitle">Estética & Cuidado de Uñas</p>
+    </header>
+
+    <main>
+        <div class="booking-card">
+            <p class="intro-text" id="welcomeText">Tu momento de cuidado personal comienza aquí</p>
+            
+            <!-- Botón inicial para abrir la agenda -->
+            <button type="button" class="btn-primary" id="openBookingBtn">Agendar mi turno</button>
+
+            <!-- Agenda desplegable -->
+            <form class="booking-form" id="bookingForm">
+                
+                <div class="form-group">
+                    <label for="service">1. Elige tu servicio</label>
+                    <select id="service" required>
+                        <option value="" disabled selected>Selecciona un tratamiento...</option>
+                        <option value="Esmaltado Semipermanente">Esmaltado Semipermanente</option>
+                        <option value="Kapping / Nivelación">Kapping / Nivelación</option>
+                        <option value="Uñas Esculpidas (Soft Gel / Acrílico)">Uñas Esculpidas (Soft Gel / Acrílico)</option>
+                        <option value="Manicuría Rusa / Combinada">Manicuría Rusa / Combinada</option>
+                        <option value="Service / Mantenimiento">Service / Mantenimiento</option>
+                        <option value="Retirado + Nutrición">Retirado + Nutrición</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">2. Elige el día disponible</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>3. Elige el horario</label>
+                    <!-- Puedes editar o agregar los horarios que trabajes -->
+                    <div class="time-slots" id="timeSlots">
+                        <button type="button" class="time-btn" data-time="09:00 hs">09:00 hs</button>
+                        <button type="button" class="time-btn" data-time="10:30 hs">10:30 hs</button>
+                        <button type="button" class="time-btn" data-time="14:00 hs">14:00 hs</button>
+                        <button type="button" class="time-btn" data-time="15:30 hs">15:30 hs</button>
+                        <button type="button" class="time-btn" data-time="17:00 hs">17:00 hs</button>
+                        <button type="button" class="time-btn" data-time="18:30 hs">18:30 hs</button>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="form-group">
+                    <label for="clientName">Tu nombre y apellido</label>
+                    <input type="text" id="clientName" placeholder="Ej: Camila López" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientPhone">Tu número de teléfono</label>
+                    <input type="tel" id="clientPhone" placeholder="Ej: 3751 123456" required>
+                </div>
+
+                <p class="error-msg" id="errorMsg">Por favor, completa todos los datos y elige un horario.</p>
+
+                <button type="submit" class="btn-primary">Confirmar por WhatsApp</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <!-- EDITAR AQUÍ: Pon tu usuario real de Instagram -->
+            <a href="https://instagram.com/tu_usuario_instagram" target="_blank" rel="noopener">
+                ✦ Instagram: @tu_usuario_instagram
+            </a>
+            <!-- EDITAR AQUÍ: Pon tu número visible -->
+            <a href="tel:+5493751000000">
+                ✦ Tel: +54 9 3751 00-0000
+            </a>
+        </div>
+        <p class="copyright">© 2026 L Nails Studio. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // EDITAR AQUÍ: Tu número de WhatsApp con código de país (sin signos + ni espacios)
+        // Ejemplo Argentina: 549 + código de área + número -> "5493751123456"
+        const TU_NUMERO_WHATSAPP = "5493751000000"; 
+        // ==========================================
+
+        const openBookingBtn = document.getElementById('openBookingBtn');
+        const bookingForm = document.getElementById('bookingForm');
+        const welcomeText = document.getElementById('welcomeText');
+        const dateInput = document.getElementById('date');
+        const timeButtons = document.querySelectorAll('.time-btn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        let selectedTime = "";
+
+        // Bloquear fechas pasadas en el calendario (solo permite desde hoy en adelante)
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        // Abrir el formulario al tocar el botón
+        openBookingBtn.addEventListener('click', () => {
+            openBookingBtn.style.display = 'none';
+            welcomeText.textContent = 'Completa los datos de tu cita';
+            bookingForm.classList.add('active');
+        });
+
+        // Selección de horario
+        timeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                timeButtons.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedTime = btn.getAttribute('data-time');
+                errorMsg.style.display = 'none';
+            });
+        });
+
+        // Enviar datos a WhatsApp al confirmar
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const service = document.getElementById('service').value;
+            const rawDate = dateInput.value;
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+
+            if (!service || !rawDate || !selectedTime || !name || !phone) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Formatear fecha de YYYY-MM-DD a DD/MM/YYYY
+            const [year, month, day] = rawDate.split('-');
+            const formattedDate = `${day}/${month}/${year}`;
+
+            // Mensaje armado para tu WhatsApp
+            const mensaje = `¡Hola! Quisiera confirmar un turno en *L Nails Studio* ✨%0A%0A` +
+                            `• *Clienta:* ${name}%0A` +
+                            `• *Teléfono:* ${phone}%0A` +
+                            `• *Servicio:* ${service}%0A` +
+                            `• *Día:* ${formattedDate}%0A` +
+                            `• *Horario:* ${selectedTime}%0A%0A` +
+                            `¡Muchas gracias!`;
+
+            const whatsappUrl = `https://wa.me/${TU_NUMERO_WHATSAPP}?text=${mensaje}`;
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
